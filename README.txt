@@ -5,3 +5,5 @@ A biblioteca é utilizada no começo da função initData para carregar a variá
 Em seguida, a função glTexImage2D carrega as texturas da imagem original, a partir da variável img.
 
 Além disso, como você disse em aula que não era necessário, não foi implementada a alteração da escala no eixo z
+
+
