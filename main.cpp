@@ -15,26 +15,40 @@ int win_width = 1280;
 int win_height = 720;
 
 glm::mat4 proj = glm::perspective(glm::radians(70.0f), 16.0f / 9.0f, 0.1f, -100.0f);
-glm::mat4 view = glm::translate(glm::vec3(0.0f, 0.0f, -2.0f));
-glm::mat4 model = glm::rotate(glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+glm::mat4 view = glm::translate(glm::vec3(0.0f, 0.0f, -5.0f));
 
 Shader *shad;
 Mesh *me;
 
 int lastTime = 0;
+float rotation = 0;
 
 void display()
 {
-    glClearColor(1.0, 1.0, 1.0, 1.0); //fundo branco
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0); //fundo preto
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+    glm::mat4 model = glm::mat4(1);
 
     shad->Bind();
     shad->setUniformMat4f("model", model);
     shad->setUniformMat4f("view", view);
     shad->setUniformMat4f("projection", proj);
+    shad->setUniform3f("objectColor", 1.0f, 0.0f, 1.0f);
+    shad->setUniform3f("lightColor", 1.0f, 1.0f, 1.0f);
+    shad->setUniform3f("lightPosition", 0.0f, 0.0f, 0.0f);
+    shad->setUniform3f("cameraPosition", 0.0f, 0.0f, -5.0f);
+    shad->setUniform1i("isSun", true);
 
+    me->Draw();
+
+    model = glm::translate(glm::vec3(5.0f, 0.0f, 0.0f));
+    model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f)) * model;
+    shad->setUniformMat4f("model", model);
+    shad->setUniform3f("objectColor", 0.0f, 0.0f, 1.0f);
+    shad->setUniform1i("isSun", false);
     me->Draw();
 
     glutSwapBuffers();
@@ -50,6 +64,8 @@ void idle()
     int now = glutGet(GLUT_ELAPSED_TIME);
     float elapsedTime = (now - lastTime) / 1000.0f;
     lastTime = now;
+
+    rotation += 10 * elapsedTime;
 
     glutPostRedisplay();
 }
