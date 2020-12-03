@@ -23,16 +23,8 @@ ShaderProgramSource Shader::ParseShader(const std::string &filePath)
     std::ifstream vertStream(filePath + ".vs");
     std::ifstream fragStream(filePath + ".fs");
 
-    enum class ShaderType
-    {
-        NONE = -1,
-        VERTEX = 0,
-        FRAGMENT = 1
-    };
-
     std::string line;
     std::stringstream ss[2];
-    ShaderType type = ShaderType::NONE;
     while (getline(vertStream, line))
         ss[0] << line << "\n";
     while (getline(fragStream, line))
