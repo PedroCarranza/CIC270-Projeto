@@ -5,16 +5,11 @@
 #include <string>
 #include <sstream>
 
-void Mesh::Draw(Shader *shader)
+void Mesh::Draw()
 {
-
-    // draw mesh
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, vertices.size());
     glBindVertexArray(0);
-
-    // always good practice to set everything back to defaults once configured.
-    glActiveTexture(GL_TEXTURE0);
 }
 
 void Mesh::parseMesh(const std::string &path)
@@ -57,9 +52,9 @@ void Mesh::parseMesh(const std::string &path)
             p >> po[1] >> lixo >> te[1] >> lixo >> nm[1];
             p >> po[2] >> lixo >> te[2] >> lixo >> nm[2];
 
-            vertices.push_back({pos[po[0]], norm[nm[0]], tex[te[0]]});
-            vertices.push_back({pos[po[1]], norm[nm[1]], tex[te[1]]});
-            vertices.push_back({pos[po[2]], norm[nm[2]], tex[te[2]]});
+            vertices.push_back({pos[po[0] - 1], norm[nm[0] - 1], tex[te[0] - 1]});
+            vertices.push_back({pos[po[1] - 1], norm[nm[1] - 1], tex[te[1] - 1]});
+            vertices.push_back({pos[po[2] - 1], norm[nm[2] - 1], tex[te[2] - 1]});
         }
     }
 }
@@ -82,11 +77,6 @@ void Mesh::setupMesh()
     // vertex texture coords
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(sizeof(float) * 6));
-
-    if (offsetof(Vertex, TexCoords) != (sizeof(float) * 6))
-    {
-        std::cout << "Ihh rapaz" << std::endl;
-    }
 
     glBindVertexArray(0);
 }

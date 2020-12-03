@@ -23,19 +23,17 @@ class Mesh
 public:
     // mesh Data
     std::vector<Vertex> vertices;
-    std::vector<unsigned int> indices;
     unsigned int VAO;
 
     // constructor
     Mesh(const std::string &path)
     {
-
         parseMesh(path);
         setupMesh();
     }
 
     // render the mesh
-    void Draw(Shader *shader);
+    void Draw();
 
 private:
     unsigned int VBO, EBO;

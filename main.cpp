@@ -16,7 +16,7 @@ int win_height = 720;
 
 glm::mat4 proj = glm::perspective(glm::radians(70.0f), 16.0f / 9.0f, 0.1f, -100.0f);
 glm::mat4 view = glm::translate(glm::vec3(0.0f, 0.0f, -2.0f));
-glm::mat4 model = glm::rotate(glm::radians(-45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+glm::mat4 model = glm::rotate(glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
 Shader *shad;
 Mesh *me;
@@ -26,7 +26,7 @@ int lastTime = 0;
 void display()
 {
     glClearColor(1.0, 1.0, 1.0, 1.0); //fundo branco
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -35,25 +35,14 @@ void display()
     shad->setUniformMat4f("view", view);
     shad->setUniformMat4f("projection", proj);
 
-    me->Draw(shad);
+    me->Draw();
 
     glutSwapBuffers();
 }
 
-/**
- * Reshape function.
- *
- * Called when window is resized.
- *
- * @param width New window width.
- * @param height New window height.
- */
 void reshape(int width, int height)
 {
-    win_width = width;
-    win_height = height;
-    glViewport(0, 0, width, height);
-    glutPostRedisplay();
+    glutReshapeWindow(win_width, win_height);
 }
 
 void idle()
@@ -79,6 +68,8 @@ int main(int argc, char **argv)
 
     shad = new Shader("res/test");
     me = new Mesh("sphere.obj");
+
+    glEnable(GL_DEPTH_TEST);
 
     glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
 
