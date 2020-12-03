@@ -42,12 +42,11 @@ void display()
     shad->setUniformMat4f("model", model);
     shad->setUniformMat4f("view", view);
     shad->setUniformMat4f("projection", proj);
-    shad->setUniform3f("objectColor", 1.0f, 0.0f, 1.0f);
+    shad->setUniform3f("objectColor", 1.0f, 1.0f, 0.0f);
     shad->setUniform3f("lightColor", 1.0f, 1.0f, 1.0f);
     shad->setUniform3f("lightPosition", 0.0f, 0.0f, 0.0f);
     shad->setUniform3f("cameraPosition", cam->getPos());
     shad->setUniform1i("isSun", true);
-
     me->Draw();
 
     model = glm::translate(glm::vec3(5.0f, 0.0f, 0.0f));
