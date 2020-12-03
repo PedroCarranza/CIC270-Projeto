@@ -13,10 +13,10 @@ CC=g++
 CC_FLAGS = -g -c -Wall -I ./util -I ./lib -std=c++20
 
 ifeq ($(OS),Windows_NT)
-  LDFLAGS = -lfreeglut -lGLEW32 -lopengl32 -lopenal
+  LDFLAGS = -lfreeglut -lGLEW32 -lopengl32
   CC_FLAGS += -D WIN32
 else
-  LDFLAGS = -lglut -lGLEW -lGL -lopenal
+  LDFLAGS = -lglut -lGLEW -lGL
 endif
 
 
