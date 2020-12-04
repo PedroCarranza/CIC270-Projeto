@@ -43,6 +43,7 @@ void Mesh::parseMesh(const std::string &path)
         }
         if (test == "f")
         {
+            //pay respect
             int po[3];
             int te[3];
             int nm[3];
