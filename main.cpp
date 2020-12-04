@@ -22,27 +22,34 @@ std::unordered_map<char, bool> keys;
 
 glm::mat4 proj = glm::perspective(glm::radians(70.0f), 16.0f / 9.0f, 0.1f, -100.0f);
 
-Shader *shad;
+Shader *shad, *backShad;
 Mesh *me;
 Camera *cam;
-Texture *terraTex, *solTex;
+Texture *spaceTex, *moonTex, *terraTex, *solTex;
 
 int lastTime = 0;
 float rotation = 0;
 bool mouseMove = false;
+
+unsigned int VAO;
+unsigned int VBO;
 
 void display()
 {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0); //fundo preto
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    backShad->Bind();
+    spaceTex->Bind();
+    glBindVertexArray(VAO);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
 
     glm::mat4 model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
     glm::mat4 view = glm::lookAt(cam->getPos(), cam->getPos() + cam->getLook(), cam->getUp());
-    solTex->Bind();
 
     shad->Bind();
+    solTex->Bind();
     shad->setUniformMat4f("model", model);
     shad->setUniformMat4f("view", view);
     shad->setUniformMat4f("projection", proj);
@@ -57,7 +64,20 @@ void display()
     model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f)) *
             glm::translate(glm::vec3(5.0f, 0.0f, 0.0f)) *
             glm::scale(glm::vec3(0.5f, 0.5f, 0.5f)) *
-            glm::rotate(glm::radians(rotation) * 50.0f, glm::vec3(0.0f, 1.0f, 0.0f)); //De baixo para cima!
+            glm::rotate(glm::radians(rotation) * 25.0f, glm::vec3(0.0f, 1.0f, 0.0f)); //De baixo para cima!
+
+    shad->setUniformMat4f("model", model);
+    //shad->setUniform3f("objectColor", 0.0f, 0.0f, 1.0f);
+    shad->setUniform1i("isSun", false);
+    me->Draw();
+
+    moonTex->Bind();
+    model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f)) *
+            glm::translate(glm::vec3(5.0f, 0.0f, 0.0f)) *
+            glm::rotate(glm::radians(rotation) * 25.0f, glm::vec3(0.0f, 1.0f, 0.0f)) *
+            glm::translate(glm::vec3(1.0f, 0.0f, 0.0f)) *
+            glm::scale(glm::vec3(0.2f, 0.2f, 0.2f)) *
+            glm::rotate(glm::radians(rotation) * 100.0f, glm::vec3(0.0f, 1.0f, 1.0f)); //De baixo para cima!
 
     shad->setUniformMat4f("model", model);
     //shad->setUniform3f("objectColor", 0.0f, 0.0f, 1.0f);
@@ -126,10 +146,50 @@ int main(int argc, char **argv)
     glewInit();
 
     shad = new Shader("res/test");
+    backShad = new Shader("res/background");
+    spaceTex = new Texture("res/ispace.jpg");
+    moonTex = new Texture("res/mun.jpg");
     terraTex = new Texture("res/irth.jpg");
     solTex = new Texture("res/sam.jpg");
     me = new Mesh("sphere.obj");
     cam = new Camera();
+
+    float back[] = {
+        -1.0f,
+        -1.0f,
+        0.0f,
+        0.0f,
+        -1.0f,
+        1.0f,
+        0.0f,
+        1.0f,
+        1.0f,
+        1.0f,
+        1.0f,
+        1.0f,
+        -1.0f,
+        -1.0f,
+        0.0f,
+        0.0f,
+        1.0f,
+        1.0f,
+        1.0f,
+        1.0f,
+        1.0f,
+        -1.0f,
+        1.0f,
+        0.0f,
+    };
+
+    glGenBuffers(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(back), back, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)(2 * sizeof(float)));
 
     glEnable(GL_DEPTH_TEST);
 
