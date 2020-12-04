@@ -37,7 +37,7 @@ unsigned int VBO;
 void display()
 {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0); //fundo preto
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
 
     backShad->Bind();
     spaceTex->Bind();
@@ -47,6 +47,8 @@ void display()
 
     glm::mat4 model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
     glm::mat4 view = glm::lookAt(cam->getPos(), cam->getPos() + cam->getLook(), cam->getUp());
+
+    glClear(GL_DEPTH_BUFFER_BIT);
 
     shad->Bind();
     solTex->Bind();
@@ -74,7 +76,7 @@ void display()
     moonTex->Bind();
     model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f)) *
             glm::translate(glm::vec3(5.0f, 0.0f, 0.0f)) *
-            glm::rotate(glm::radians(rotation) * 25.0f, glm::vec3(0.0f, 1.0f, 0.0f)) *
+            glm::rotate(glm::radians(rotation) * 5.0f, glm::vec3(0.0f, 1.0f, 0.0f)) *
             glm::translate(glm::vec3(1.0f, 0.0f, 0.0f)) *
             glm::scale(glm::vec3(0.2f, 0.2f, 0.2f)) *
             glm::rotate(glm::radians(rotation) * 100.0f, glm::vec3(0.0f, 1.0f, 1.0f)); //De baixo para cima!
@@ -155,41 +157,27 @@ int main(int argc, char **argv)
     cam = new Camera();
 
     float back[] = {
-        -1.0f,
-        -1.0f,
-        0.0f,
-        0.0f,
-        -1.0f,
-        1.0f,
-        0.0f,
-        1.0f,
-        1.0f,
-        1.0f,
-        1.0f,
-        1.0f,
-        -1.0f,
-        -1.0f,
-        0.0f,
-        0.0f,
-        1.0f,
-        1.0f,
-        1.0f,
-        1.0f,
-        1.0f,
-        -1.0f,
-        1.0f,
-        0.0f,
-    };
+        -1.0f, -1.0f, 0.0f, 0.0f,
+        -1.0f, 1.0f, 0.0f, 1.0f,
+        1.0f, 1.0f, 1.0f, 1.0f,
+        -1.0f, -1.0f, 0.0f, 0.0f,
+        1.0f, 1.0f, 1.0f, 1.0f,
+        1.0f, -1.0f, 1.0f, 0.0f};
 
-    glGenBuffers(1, &VAO);
-    glGenBuffers(1, &VBO);
+    glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
+
+    glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(back), back, GL_STATIC_DRAW);
+
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
+
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)(2 * sizeof(float)));
+
+    glBindVertexArray(0);
 
     glEnable(GL_DEPTH_TEST);
 
