@@ -30,6 +30,7 @@ Texture *spaceTex, *moonTex, *terraTex, *solTex;
 int lastTime = 0;
 float rotation = 0;
 bool mouseMove = false;
+bool rodar = true;
 
 unsigned int VAO;
 unsigned int VBO;
@@ -99,8 +100,9 @@ void idle()
     int now = glutGet(GLUT_ELAPSED_TIME);
     float elapsedTime = (now - lastTime) / 1000.0f;
     lastTime = now;
+    if (rodar)
+        rotation += 10 * elapsedTime;
 
-    rotation += 10 * elapsedTime;
     cam->update(elapsedTime, keys, mX, mY);
     if (mouseMove)
     {
