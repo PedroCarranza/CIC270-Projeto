@@ -1,15 +1,10 @@
-# .cpp files
-#SOURCES := $(shell find . -name '*.cpp')
 SOURCES := $(wildcard *.cpp) $(wildcard **/*.cpp)
 HEADERS := $(wildcard *.h) $(wildcard **/*.h)
 
-# Object files
 OBJ=$(addprefix objects/,$(subst .cpp,.o,$(notdir $(SOURCES))))
 
-# Compiler and linker
 CC=g++
 
-# Flags for compiler
 CC_FLAGS = -g -c -Wall -I ./lib -std=c++20
 
 ifeq ($(OS),Windows_NT)
