@@ -4,6 +4,7 @@
 
 extern int win_width;
 extern int win_height;
+extern bool mouseMove;
 
 Camera::Camera() : camPos(glm::vec3(0.0f, 0.0f, 5.0f)), look(glm::vec3(0.0f, 0.0f, -1.0f))
 {
@@ -28,10 +29,16 @@ void Camera::update(float fElapsedTime, std::unordered_map<char, bool> keys, int
         camPos -= speed * fElapsedTime * camRight;
     if (keys['a'])
         camPos += speed * fElapsedTime * camRight;
+    if (keys['q'])
+        camPos.y += speed * fElapsedTime;
+    if (keys['e'])
+        camPos.y -= speed * fElapsedTime;
 
     if (keys[0x20])
-        camPos.y += speed * fElapsedTime;
-
-    look = glm::rotate(glm::radians((float)(win_width / 2 - x) * 0.2f), glm::vec3(0.0f, 1.0f, 0.0f)) * glm::vec4(look, 1.0f);
-    look = glm::rotate(glm::radians((float)(y - win_height / 2) * 0.2f), camRight) * glm::vec4(look, 1.0f);
+        mouseMove = !mouseMove;
+    if (mouseMove)
+    {
+        look = glm::rotate(glm::radians((float)(win_width / 2 - x) * 0.2f), glm::vec3(0.0f, 1.0f, 0.0f)) * glm::vec4(look, 1.0f);
+        look = glm::rotate(glm::radians((float)(y - win_height / 2) * 0.2f), camRight) * glm::vec4(look, 1.0f);
+    }
 }

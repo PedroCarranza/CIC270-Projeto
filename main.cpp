@@ -27,6 +27,7 @@ Camera *cam;
 
 int lastTime = 0;
 float rotation = 0;
+bool mouseMove = false;
 
 void display()
 {
