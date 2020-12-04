@@ -54,9 +54,10 @@ void display()
     me->Draw();
 
     terraTex->Bind();
-    model = glm::translate(glm::vec3(5.0f, 0.0f, 0.0f));
-    model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f)) * model * glm::scale(glm::vec3(0.5f, 0.5f, 0.5f)) *
-            glm::rotate(glm::radians(rotation) * 50.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f)) *
+            glm::translate(glm::vec3(5.0f, 0.0f, 0.0f)) *
+            glm::scale(glm::vec3(0.5f, 0.5f, 0.5f)) *
+            glm::rotate(glm::radians(rotation) * 50.0f, glm::vec3(0.0f, 1.0f, 0.0f)); //De baixo para cima!
 
     shad->setUniformMat4f("model", model);
     //shad->setUniform3f("objectColor", 0.0f, 0.0f, 1.0f);
