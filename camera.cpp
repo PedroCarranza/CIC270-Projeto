@@ -43,8 +43,8 @@ void Camera::update(float fElapsedTime, std::unordered_map<char, bool> keys, int
     static bool pressionadoSpc;
     if (keys[0x20] && !pressionadoSpc)
         mouseMove = !mouseMove;
-
     pressionadoSpc = keys[0x20];
+
     if (mouseMove)
     {
         look = glm::rotate(glm::radians((float)(win_width / 2 - x) * 0.2f), glm::vec3(0.0f, 1.0f, 0.0f)) * glm::vec4(look, 1.0f);

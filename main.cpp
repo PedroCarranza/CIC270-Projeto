@@ -67,7 +67,7 @@ void display()
     model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f)) *
             glm::translate(glm::vec3(5.0f, 0.0f, 0.0f)) *
             glm::scale(glm::vec3(0.5f, 0.5f, 0.5f)) *
-            glm::rotate(glm::radians(rotation) * 25.0f, glm::vec3(0.0f, 1.0f, 0.0f)); //De baixo para cima!
+            glm::rotate(glm::radians(rotation) * 365.0f, glm::vec3(0.0f, 1.0f, 0.0f)); //De baixo para cima!
 
     shad->setUniformMat4f("model", model);
     //shad->setUniform3f("objectColor", 0.0f, 0.0f, 1.0f);
@@ -77,10 +77,10 @@ void display()
     moonTex->Bind();
     model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f)) *
             glm::translate(glm::vec3(5.0f, 0.0f, 0.0f)) *
-            glm::rotate(glm::radians(rotation) * 5.0f, glm::vec3(0.0f, 1.0f, 0.0f)) *
+            glm::rotate(glm::radians(rotation) * 365.0f / 28.0f, glm::vec3(0.0f, 1.0f, 0.0f)) *
             glm::translate(glm::vec3(1.0f, 0.0f, 0.0f)) *
-            glm::scale(glm::vec3(0.2f, 0.2f, 0.2f)) *
-            glm::rotate(glm::radians(rotation) * 100.0f, glm::vec3(0.0f, 1.0f, 1.0f)); //De baixo para cima!
+            glm::scale(glm::vec3(0.125f, 0.125f, 0.125f)) *
+            glm::rotate(glm::radians(rotation) * 365.0f / 29.5f, glm::vec3(0.0f, 1.0f, 1.0f)); //De baixo para cima!
 
     shad->setUniformMat4f("model", model);
     //shad->setUniform3f("objectColor", 0.0f, 0.0f, 1.0f);
