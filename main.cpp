@@ -60,7 +60,6 @@ void display()
     shad->setUniform1i("isSun", false);
     me->Draw();
 
-    
     glutSwapBuffers();
 }
 
@@ -84,6 +83,8 @@ void idle()
     }
     else
     {
+        mX = win_width / 2;
+        mY = win_height / 2;
         glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
     }
 
