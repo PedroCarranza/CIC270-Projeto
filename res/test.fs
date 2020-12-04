@@ -15,11 +15,12 @@ uniform sampler2D tex;
 void main()
 {
     vec3 color;
-    if(isSun){
+    /*if(isSun){
         color = objectColor;
-    }else{
-        color = texture(tex,TexCoord).xyz;
-    }
+    }else{*/
+    
+    color = texture(tex,TexCoord).xyz;
+
     float kd = 0.8;
     vec3 n = normalize(normal);
     vec3 l = normalize(lightPosition - fragPosition);

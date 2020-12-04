@@ -25,7 +25,7 @@ glm::mat4 proj = glm::perspective(glm::radians(70.0f), 16.0f / 9.0f, 0.1f, -100.
 Shader *shad;
 Mesh *me;
 Camera *cam;
-Texture *tex;
+Texture *terraTex, *solTex;
 
 int lastTime = 0;
 float rotation = 0;
@@ -38,25 +38,28 @@ void display()
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-    glm::mat4 model = glm::mat4(1);
+    glm::mat4 model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
     glm::mat4 view = glm::lookAt(cam->getPos(), cam->getPos() + cam->getLook(), cam->getUp());
-    tex->Bind();
+    solTex->Bind();
 
     shad->Bind();
     shad->setUniformMat4f("model", model);
     shad->setUniformMat4f("view", view);
     shad->setUniformMat4f("projection", proj);
-    shad->setUniform3f("objectColor", 1.0f, 1.0f, 0.0f);
+    //shad->setUniform3f("objectColor", 1.0f, 1.0f, 0.0f);
     shad->setUniform3f("lightColor", 1.0f, 1.0f, 1.0f);
     shad->setUniform3f("lightPosition", 0.0f, 0.0f, 0.0f);
     shad->setUniform3f("cameraPosition", cam->getPos());
     shad->setUniform1i("isSun", true);
     me->Draw();
 
+    terraTex->Bind();
     model = glm::translate(glm::vec3(5.0f, 0.0f, 0.0f));
-    model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f)) * model * glm::scale(glm::vec3(0.5f, 0.5f, 0.5f)) * glm::rotate(glm::radians(rotation) * 365.24f, glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f)) * model * glm::scale(glm::vec3(0.5f, 0.5f, 0.5f)) *
+            glm::rotate(glm::radians(rotation) * 50.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+
     shad->setUniformMat4f("model", model);
-    shad->setUniform3f("objectColor", 0.0f, 0.0f, 1.0f);
+    //shad->setUniform3f("objectColor", 0.0f, 0.0f, 1.0f);
     shad->setUniform1i("isSun", false);
     me->Draw();
 
@@ -122,7 +125,8 @@ int main(int argc, char **argv)
     glewInit();
 
     shad = new Shader("res/test");
-    tex = new Texture("res/irth.jpg");
+    terraTex = new Texture("res/irth.jpg");
+    solTex = new Texture("res/sam.jpg");
     me = new Mesh("sphere.obj");
     cam = new Camera();
 
