@@ -5,7 +5,7 @@
 extern int win_width;
 extern int win_height;
 extern bool mouseMove;
-extern bool rodar;
+extern bool rotate;
 
 Camera::Camera() : camPos(glm::vec3(0.0f, 0.0f, 5.0f)), look(glm::vec3(0.0f, 0.0f, -1.0f))
 {
@@ -37,7 +37,7 @@ void Camera::update(float fElapsedTime, std::unordered_map<char, bool> keys, int
 
     static bool pressionadoT;
     if (keys['t'] && !pressionadoT)
-        rodar = !rodar;
+        rotate = !rotate;
     pressionadoT = keys['t'];
 
     static bool pressionadoSpc;

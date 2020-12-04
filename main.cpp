@@ -25,12 +25,13 @@ glm::mat4 proj = glm::perspective(glm::radians(70.0f), 16.0f / 9.0f, 0.1f, -100.
 Shader *shad, *backShad;
 Mesh *me;
 Camera *cam;
-Texture *spaceTex, *moonTex, *terraTex, *solTex;
+Texture *spaceTex, *moonTex, *earthTex, *sunTex;
 
 int lastTime = 0;
 float rotation = 0;
 bool mouseMove = false;
-bool rodar = true;
+bool rotate = true;
+float year = 100.0f;
 
 unsigned int VAO;
 unsigned int VBO;
@@ -52,7 +53,7 @@ void display()
     glClear(GL_DEPTH_BUFFER_BIT);
 
     shad->Bind();
-    solTex->Bind();
+    sunTex->Bind();
     shad->setUniformMat4f("model", model);
     shad->setUniformMat4f("view", view);
     shad->setUniformMat4f("projection", proj);
@@ -63,11 +64,11 @@ void display()
     shad->setUniform1i("isSun", true);
     me->Draw();
 
-    terraTex->Bind();
+    earthTex->Bind();
     model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f)) *
             glm::translate(glm::vec3(5.0f, 0.0f, 0.0f)) *
             glm::scale(glm::vec3(0.5f, 0.5f, 0.5f)) *
-            glm::rotate(glm::radians(rotation) * 365.0f, glm::vec3(0.0f, 1.0f, 0.0f)); //De baixo para cima!
+            glm::rotate(glm::radians(rotation) * year, glm::vec3(0.0f, 1.0f, 0.0f)); //De baixo para cima!
 
     shad->setUniformMat4f("model", model);
     //shad->setUniform3f("objectColor", 0.0f, 0.0f, 1.0f);
@@ -77,10 +78,10 @@ void display()
     moonTex->Bind();
     model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f)) *
             glm::translate(glm::vec3(5.0f, 0.0f, 0.0f)) *
-            glm::rotate(glm::radians(rotation) * 365.0f / 28.0f, glm::vec3(0.0f, 1.0f, 0.0f)) *
+            glm::rotate(glm::radians(rotation) * year / 28.0f, glm::vec3(0.0f, 1.0f, 0.0f)) *
             glm::translate(glm::vec3(1.0f, 0.0f, 0.0f)) *
             glm::scale(glm::vec3(0.125f, 0.125f, 0.125f)) *
-            glm::rotate(glm::radians(rotation) * 365.0f / 29.5f, glm::vec3(0.0f, 1.0f, 1.0f)); //De baixo para cima!
+            glm::rotate(glm::radians(rotation) * year / 29.5f, glm::vec3(0.0f, 1.0f, 1.0f)); //De baixo para cima!
 
     shad->setUniformMat4f("model", model);
     //shad->setUniform3f("objectColor", 0.0f, 0.0f, 1.0f);
@@ -100,8 +101,8 @@ void idle()
     int now = glutGet(GLUT_ELAPSED_TIME);
     float elapsedTime = (now - lastTime) / 1000.0f;
     lastTime = now;
-    if (rodar)
-        rotation += 10 * elapsedTime;
+    if (rotate)
+        rotation += 5 * elapsedTime;
 
     cam->update(elapsedTime, keys, mX, mY);
     if (mouseMove)
@@ -151,10 +152,10 @@ int main(int argc, char **argv)
 
     shad = new Shader("res/test");
     backShad = new Shader("res/background");
-    spaceTex = new Texture("res/ispace.jpg");
-    moonTex = new Texture("res/mun.jpg");
-    terraTex = new Texture("res/irth.jpg");
-    solTex = new Texture("res/sam.jpg");
+    spaceTex = new Texture("res/space.jpg");
+    moonTex = new Texture("res/moon.jpg");
+    earthTex = new Texture("res/earth.jpg");
+    sunTex = new Texture("res/sun.jpg");
     me = new Mesh("sphere.obj");
     cam = new Camera();
 
