@@ -31,7 +31,7 @@ int lastTime = 0;
 float rotation = 0;
 bool mouseMove = false;
 bool rotate = true;
-float year = 100.0f;
+float year = 365.0f;
 
 unsigned int VAO;
 unsigned int VBO;
@@ -102,7 +102,7 @@ void idle()
     float elapsedTime = (now - lastTime) / 1000.0f;
     lastTime = now;
     if (rotate)
-        rotation += 5 * elapsedTime;
+        rotation += 2 * elapsedTime;
 
     cam->update(elapsedTime, keys, mX, mY);
     if (mouseMove)
