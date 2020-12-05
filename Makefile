@@ -5,7 +5,7 @@ OBJ=$(addprefix objects/,$(subst .cpp,.o,$(notdir $(SOURCES))))
 
 CC=g++
 
-CC_FLAGS = -g -c -Wall -I ./lib -std=c++20
+CC_FLAGS = -c -I ./lib
 
 ifeq ($(OS),Windows_NT)
   LDFLAGS = -lfreeglut -lGLEW32 -lopengl32

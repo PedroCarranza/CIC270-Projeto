@@ -40,6 +40,7 @@ void display()
 {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0); //fundo preto
     glClear(GL_COLOR_BUFFER_BIT);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     backShad->Bind();
     spaceTex->Bind();
