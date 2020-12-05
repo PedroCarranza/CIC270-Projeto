@@ -14,11 +14,7 @@ uniform sampler2D tex;
 
 void main()
 {
-    vec3 color;
-    /*if(isSun){
-        color = objectColor;
-    }else{*/
-    
+    vec3 color;    
     color = texture(tex,TexCoord).xyz;
 
     float kd = 0.8;
