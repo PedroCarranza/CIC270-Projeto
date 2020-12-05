@@ -47,7 +47,7 @@ void display()
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);
 
-    glm::mat4 model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::mat4 model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f)); //rotacao Sol
     glm::mat4 view = glm::lookAt(cam->getPos(), cam->getPos() + cam->getLook(), cam->getUp());
 
     glClear(GL_DEPTH_BUFFER_BIT);
@@ -57,7 +57,6 @@ void display()
     shad->setUniformMat4f("model", model);
     shad->setUniformMat4f("view", view);
     shad->setUniformMat4f("projection", proj);
-    //shad->setUniform3f("objectColor", 1.0f, 1.0f, 0.0f);
     shad->setUniform3f("lightColor", 1.0f, 1.0f, 1.0f);
     shad->setUniform3f("lightPosition", 0.0f, 0.0f, 0.0f);
     shad->setUniform3f("cameraPosition", cam->getPos());
@@ -65,26 +64,24 @@ void display()
     me->Draw();
 
     earthTex->Bind();
-    model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f)) *
+    model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f)) * //rotacao translacao Terra
             glm::translate(glm::vec3(5.0f, 0.0f, 0.0f)) *
             glm::scale(glm::vec3(0.5f, 0.5f, 0.5f)) *
-            glm::rotate(glm::radians(rotation) * year, glm::vec3(0.0f, 1.0f, 0.0f)); //De baixo para cima!
+            glm::rotate(glm::radians(rotation) * year, glm::vec3(0.0f, 1.0f, 0.0f));
 
     shad->setUniformMat4f("model", model);
-    //shad->setUniform3f("objectColor", 0.0f, 0.0f, 1.0f);
     shad->setUniform1i("isSun", false);
     me->Draw();
 
     moonTex->Bind();
-    model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f)) *
+    model = glm::rotate(glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f)) * //rotacao translacao revolução Lua
             glm::translate(glm::vec3(5.0f, 0.0f, 0.0f)) *
             glm::rotate(glm::radians(rotation) * year / 28.0f, glm::vec3(0.0f, 1.0f, 0.0f)) *
             glm::translate(glm::vec3(1.0f, 0.0f, 0.0f)) *
             glm::scale(glm::vec3(0.125f, 0.125f, 0.125f)) *
-            glm::rotate(glm::radians(rotation) * year / 29.5f, glm::vec3(0.0f, 1.0f, 1.0f)); //De baixo para cima!
+            glm::rotate(glm::radians(rotation) * year / 29.5f, glm::vec3(0.0f, 1.0f, 1.0f));
 
     shad->setUniformMat4f("model", model);
-    //shad->setUniform3f("objectColor", 0.0f, 0.0f, 1.0f);
     shad->setUniform1i("isSun", false);
     me->Draw();
 
